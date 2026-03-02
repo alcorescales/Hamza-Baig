@@ -1,0 +1,41 @@
+{
+  "headers": [
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## Why This Happens
+
+When a browser receives a file, it doesn't just "look" at it — it reads the `Content-Type` header from the server to decide **how to render it**. If that header says `text/plain`, the browser displays raw text. If it says `text/html`, the browser parses and renders it as a webpage.
+
+Vercel was serving your file without the correct header, so the browser said "this is just text, I'll display it as-is" — which is exactly what you saw.
+
+---
+
+## Double-Check Your Repo Structure
+
+Your GitHub repo should look exactly like this — **both files at the root level, nothing inside a subfolder:**
+```
+your-repo/
+├── index.html
+└── vercel.json
